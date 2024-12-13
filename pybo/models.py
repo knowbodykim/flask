@@ -4,6 +4,12 @@ from pybo import db
 # 클래스는 빵틀 = 속성 (변수, 데이터) + 메서드 (함수)
 # 클래스 -> 틀, 틀로 만든 것이 객체
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.String(50), nullable=False, unique=True)
+    password = db.Column(db.String(200), nullable=False)
+
+
 # db.Model이라는 클래스를 Question 받아서 새로운 클래스 생성
 class Question(db.Model):
     # Column, primary key, nullable, Datetime -> DB에 관한 설정

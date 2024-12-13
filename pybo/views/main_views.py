@@ -1,6 +1,6 @@
 from flask import Blueprint, url_for, render_template, jsonify, request
 from werkzeug.utils import redirect
-from pybo.models import Question
+from pybo.models import Question, User
 from pybo import db
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
@@ -221,6 +221,32 @@ def delete_question(id):
     return jsonify({"message" :f" Question {id}이 삭제 되었습니다."}), 200
 
 
+# POST 회원 추가
+@bp.route('/add_user', methods=['POST'])
+
+def add_user():
+
+    data = request.get_json()
+    user_id = data.get('user_id')
+    password = data.get('password')
+
+    if not user_id or not password:
+        return jsonify({"error":"user_id와 password는 필수항목입니다."}), 400
+    
+    # 새로운 User 객체 생성
+    new_user = User(user_id=user_id, password=password)
+
+    # DB에 추가
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        print (f"User {user_id} 가 추가되었습니다.")
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return jsonify({"error":f"사용자 추가 중 문제가 발생하였습니다.:{str(e)}"})
+
+    # 4. 결과 반환
+    return jsonify({"message" :f"User {user_id}가 추가되었습니다."}), 201
 
 # @bp.route('/')
 # def index():

@@ -22,6 +22,8 @@ def create_app():
 
     # ORM -> DB와 연관
     db.init_app(app)
+    with app.app_context():
+        db.create_all()
     migrate.init_app(app, db)
     from . import models
 
