@@ -12,6 +12,16 @@ class Question(db.Model):
     content = db.Column(db.Text(), nullable=False)
     create_date = db.Column(db.DateTime(), nullable=False)
 
+    def to_dict(self):
+        """
+        Question 객체를 딕셔너리 객체로 변환
+        """
+        return {
+            "id": self.id,
+            "subject": self.subject,
+            "content": self.content,
+            "create_date": self.create_date.isoformat() if self.create_date else None
+        }
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)

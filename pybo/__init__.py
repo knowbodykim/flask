@@ -36,9 +36,10 @@ def create_app():
     # views폴더 안에 main_views라는 py파일을
     # import 사용   
     # 블루프린트 -> 라우트와 연관
-    from .views import main_views
+    from .views import main_views, question_views
     # main_views.py에 생성된 bp 객체를 등록
     app.register_blueprint(main_views.bp)
+    app.register_blueprint(question_views.bp)
 
     # 만약 새로운 url 매핑이 필요하면 라우팅 함수를
     # create_app 함수 안에 계속 추가해야 한다.
